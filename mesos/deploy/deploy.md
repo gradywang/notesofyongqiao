@@ -102,17 +102,25 @@ drwxr-xr-x 9 root root    4096 Aug  3 10:23 ../
 ### Bootstrap the Mesos cluster
 Check whether a mesos process has be started before.
 ```
-# rm -rf /opt/workspace/data/mesos /opt/workspace/log/mesos && mkdir /opt/workspace/log/mesos && mkdir /opt/workspace/data/mesos
+# rm -rf /opt/workspace/data/mesos /opt/workspace/log/mesos \
+  && mkdir /opt/workspace/log/mesos && mkdir /opt/workspace/data/mesos
 ```
 
 Start the Mesos master:
 ```
-# /bin/bash /opt/mesosinstall/sbin/mesos-daemon.sh mesos-master --work_dir=/opt/workspace/data/mesos --log_dir=/opt/workspace/log/mesos --registry_fetch_timeout=10mins
+# /bin/bash /opt/mesosinstall/sbin/mesos-daemon.sh mesos-master \
+  --work_dir=/opt/workspace/data/mesos \
+  --log_dir=/opt/workspace/log/mesos \
+  --registry_fetch_timeout=10mins
 ```
 
 Start the Mesos agent:
 ```
-# /bin/bash /opt/mesosinstall/sbin/mesos-daemon.sh mesos-slave --master=[Mesos Master]:5050 --work_dir=/opt/workspace/data/mesos --log_dir=/opt/workspace/log/mesos --executor_registration_timeout=10mins
+# /bin/bash /opt/mesosinstall/sbin/mesos-daemon.sh mesos-slave \
+  --master=[Mesos Master]:5050  \
+  --work_dir=/opt/workspace/data/mesos \
+  --log_dir=/opt/workspace/log/mesos \
+  --executor_registration_timeout=10mins
 ```
 
 ### Verification
