@@ -69,11 +69,6 @@ Start Marathon:
 
 Logon marathon portal `http://gradyhost1.eng.platformlab.ibm.com:8080/` to launch a task.
 
-
-
-
-
-
-
-
+### Supportor
+Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
 
