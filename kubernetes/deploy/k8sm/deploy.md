@@ -1,5 +1,5 @@
 ## Deploy Kubernetes cluster on Mesos
-The following steps have be verified on ubuntu14.04.
+The following steps have be verified on ubuntu14.04. Also can refer to [CSDN article](http://geek.csdn.net/news/detail/90931) for the details steps. 
 
 ### Environment variables definition:
 ```
@@ -58,8 +58,6 @@ drwxr-xr-x 3 root root      4096 Jul 18 13:16 ../
 -rwxr-xr-x 1 root root   3581608 Jul 18 13:16 teststale*
 
 ```
-### Deploy Mesos cluster
-Refer to [here](https://github.com/gradywang/notesofyongqiao/tree/master/mesos/deploy) for the details.
 
 ### Deploy ETCD cluster
 Refer to [here](https://github.com/gradywang/notesofyongqiao/blob/master/etcd/deploy/deploy.md) for the details.
@@ -72,8 +70,11 @@ Then set the flannel network in the etcd cluster:
 
 Assumes the installed etcd url is:
 ```
-# export ETCD_URL=http://9.111.255.10:2379
+# export ETCD_URL=http://9.111.255.10:2379,http://9.111.254.41:2379,http://9.111.255.50:2379
 ```
+### Deploy Mesos cluster
+Refer to [here](https://github.com/gradywang/notesofyongqiao/tree/master/mesos/deploy) for the details.
+
 ### Deploy flannel on each node in the cluster
 Refer to [here](https://github.com/gradywang/notesofyongqiao/blob/master/flannel/deploy/deploy.md) for the details.
 
@@ -89,16 +90,65 @@ export http_proxy=http://9.21.63.156:3128/
 # service docker restart
 ```
 
-### Start the kubernetes cluster on the kuber.
+### Start the kubernetes cluster on the build machine.
 ```
 # rm -rf /opt/workspace/log/kubernetes/ && mkdir -p /opt/workspace/log/kubernetes/
 # rm -rf /opt/workspace/data/kubernetes/ && mkdir -p /opt/workspace/data/kubernetes/
+
 # export MESOS_CLOUD_CONF=/opt/workspace/data/kubernetes/mesos-cloud.conf
 # export MESOS_MASTER=gradyhost1.eng.platformlab.ibm.com:5050
 # cat <<EOF >${MESOS_CLOUD_CONF}
 [mesos-cloud]
         mesos-master        = ${MESOS_MASTER}
 EOF
+
+# export PATH="/opt/opensource/upstream/k8s-workspace/src/k8s.io/kubernetes/_output/bin:$PATH"
+# export KUBERNETES_MASTER_IP=$(hostname -i)
+# export ETCD_URL=http://9.111.255.10:2379,http://9.111.254.41:2379,http://9.111.255.50:2379
+# export SERVICE_CLUSTER_IP_RANGE=192.168.3.0/24
+# export API_SERV_PORT=8888
+# export API_SERV_URL=${KUBERNETES_MASTER_IP}:${API_SERV_PORT}
+# export CLUSTER_DNS=192.168.3.10
+# export CLUSTER_DOMAIN=cluster.local
+
+# nohup km apiserver \
+    --address=${KUBERNETES_MASTER_IP} \
+    --etcd-servers=${ETCD_URL} \
+    --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
+    --port=${API_SERV_PORT} \
+    --cloud-provider=mesos \
+    --cloud-config=${MESOS_CLOUD_CONF} \
+    --secure-port=0 \
+    --v=2 > /opt/workspace/log/kubernetes/apiserver.log 2>&1 &
+
+# nohup km controller-manager \
+    --master=${API_SERV_URL} \
+    --cloud-provider=mesos \
+    --cloud-config=${MESOS_CLOUD_CONF}  \
+    --v=2 > /opt/workspace/log/kubernetes/controller.log 2>&1 &
+    
+# nohup km scheduler \
+    --address=${KUBERNETES_MASTER_IP} \
+    --mesos-master=${MESOS_MASTER} \
+    --etcd-servers=${ETCD_URL} \
+    --mesos-user=root \
+    --api-servers=${API_SERV_URL} \
+    --cluster-dns=${CLUSTER_DNS}  \
+    --cluster-domain=${CLUSTER_DOMAIN} \
+    --v=2 > /opt/workspace/log/kubernetes/scheduler.log 2>&1 &
+```
+
+### Vefication 
+```
+# kubectl get service
+NAME             CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+k8sm-scheduler   192.168.3.193   <none>        10251/TCP   4s
+kubernetes       192.168.3.1     <none>        443/TCP     18s
+
+# kubectl get nodes
+NAME                                 STATUS    AGE
+gradyhost2.eng.platformlab.ibm.com   Ready     12s
+gradyhost3.eng.platformlab.ibm.com   Ready     9s
 ```
 
 ### Supportor
