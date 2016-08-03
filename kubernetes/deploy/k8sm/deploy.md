@@ -151,5 +151,9 @@ gradyhost2.eng.platformlab.ibm.com   Ready     12s
 gradyhost3.eng.platformlab.ibm.com   Ready     9s
 ```
 
+### Deploy addons
+Refer to [here](https://github.com/gradywang/notesofyongqiao/tree/master/kubernetes/deploy/deploy-addons.md)
+to deploy addon services.
+
 ### Supportor
 Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
