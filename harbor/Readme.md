@@ -38,6 +38,13 @@ Note: If both tag A and tag B reference the same image, after deleting tag A, B 
 
 - First, delete repositories in Harbor's UI. This is soft deletion. You can delete the entire repository or just a tag of it.
 - Second, delete the real data using registry's garbage colliection(GC).
+```
+# cd /opt/harbor
+# ./prepare
+# docker-compose stop
+# docker run -it --name gc --rm --volumes-from harbor_registry_1 registry:2.4.0 garbage-collect --dry-run /etc/registry/config.yml
+# docker-compose start
+```
 
 ### Supportor
 Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
