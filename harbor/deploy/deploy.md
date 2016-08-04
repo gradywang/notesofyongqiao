@@ -98,18 +98,24 @@ a4b9356f1a60        harbor_mysql             "docker-entrypoint.sh"   14 minutes
  - By default, docker uses `https` to login and access the private registry, so it needs to disable the security in docker configuration file
  ```
  # vim /etc/default/docker
- DOCKER_OPTS="--insecure-registry=gradyhost1.eng.platformlab.ibm.com:80"
+ DOCKER_OPTS="--insecure-registry=gradyhost1.eng.platformlab.ibm.com"
  ```
  Note: the hostname must be the same as configured in harbor.cfg.
  
  - Login
  ```
- # docker -D login gradyhost1.eng.platformlab.ibm.com:80
+ # docker -D login gradyhost1.eng.platformlab.ibm.com
  Username: admin
  Password: Harbor12345
  Login Succeeded
  ```
- Note: the login string **gradyhost1.eng.platformlab.ibm.com:80** must be same as configured in **--insecure-registry**
+ Note: the login string **gradyhost1.eng.platformlab.ibm.com** must be same as configured in **--insecure-registry**
+ 
+ - Push image
+ ```
+ # docker tag nginx:1.7.9 gradyhost1.eng.platformlab.ibm.com/library/nginx
+ # docker push gradyhost1.eng.platformlab.ibm.com/library/nginx
+ ```
 
 ### Troubleshooting
 - Log files
