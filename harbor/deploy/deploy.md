@@ -130,6 +130,9 @@ drwxr-xr-x 3 root   root  4096 Aug  4 12:29 ../
 -rw-r----- 1 syslog adm   7527 Aug  4 12:33 docker_registry.log
 -rw-r----- 1 syslog adm   7582 Aug  4 12:33 docker_ui.log
 ```
+- Data files
+Harbor stores the data files under **/data** directory, if you restart the harbor process
+it will recovery the state from that dir.
 
 ### Supportor
 Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
