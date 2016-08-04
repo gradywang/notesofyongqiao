@@ -14,3 +14,7 @@ Install flannel on this machine:
 # rm -rf /opt/workspace/log/flannel/ && mkdir -p /opt/workspace/log/flannel/
 # nohup flanneld -etcd-endpoints ${ETCD_URL} > /opt/workspace/log/flannel/flannel.log 2>&1 &
 ```
+
+### Supportor
+Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
+
