@@ -53,6 +53,9 @@ PS：Master-Worker设计模式核心思想是将原来串行的逻辑并行化�
 - 通过配置缓存功能加速Web请求：可以缓存真实Web服务器上的某些静态资源，减轻真实Web服务器的负载压力；
 - 实现负载均衡：充当负载均衡服务器均衡地分发请求，平衡集群中各个服务器的负载压力；
 
+### Good Article
+[Nginx支持的负载均衡策略](http://www.open-open.com/lib/view/open1351061927086.html)
+[Nginx+Tomcat集群与负载均衡](http://www.open-open.com/lib/view/open1351061706430.html)
 ### Supportor
 Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
 

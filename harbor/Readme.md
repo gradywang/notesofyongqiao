@@ -26,8 +26,8 @@ Harbor的project和实际中的一个应用对应，它包含这个应用的所�
 - 匿名用户: 不需要登录，只有对public的project有读权限。
 - System Admin: 管理所有的project，users，own the defaut object library.
 
-### Replication Image
-SysAdmin可以配置实时策略，将一个harbor中的某个project中的所有image**实时动态**的拷贝到另外一个远程的harbor中。如果远程对应的project开始不存在，则sysadmin会创建这个project。
+### [Replication Image](http://www.toutiao.com/i6314751010367603202/)
+SysAdmin可以配置实时策略，将一个harbor中的某个project中的所有image**实时动态**的拷贝到另外一个远程的harbor中。如果远程对应的project开始不存在，则sysadmin会创建这个project。它可以帮助部署主从的Harbor集群，只能在主Harbor上修改镜像，然后自动同步到其他的harbor中，一个应用平台可以访问不同的harbor实现负载均衡和HA。
 
 ### UI
 - Search project and image
