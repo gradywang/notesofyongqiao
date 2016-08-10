@@ -2,9 +2,8 @@
 
 ### Ubuntu14.04
 
-Installation:
 ```
-# apt-get update 
+# apt-get update
 # apt-get install wget
 # wget -qO- https://get.docker.com/ | sh
 # docker version
@@ -25,6 +24,16 @@ Server:
  OS/Arch:      linux/amd64
 ```
 
+### Centos 7.x
+```
+# sudo yum update -y
+# curl -fsSL https://get.docker.com/ | sh
+# service docker start
+# docker --version
+Docker version 1.12.0, build 8eab29e
+```
+
+## Configuration
 Configuration `/etc/default/docker`:
 - Proxy
 ```
@@ -39,5 +48,5 @@ DOCKER_OPTS="--insecure-registry=gradyhost1.eng.platformlab.ibm.com:80"
 DOCKER_OPTS="-H 0.0.0.0:2375 -H unix:///var/run/docker.sock"
 ```
 
-### Supportor
+## Supportor
 Wang Yong Qiao (Weichat: gradyYQwang / Email: grady.wang@foxmail.com)
