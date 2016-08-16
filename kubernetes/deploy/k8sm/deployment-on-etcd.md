@@ -38,14 +38,14 @@ export http_proxy=http://x.x.x.x:3128/
 
 Logon one master machine to build the Mesos.
 
-Checkout the Mesos code and switch to 1.0.0-rc2:
+Checkout the Mesos code and switch to ibm-1.0.x branch:
 ```
 # mkdir /opt/etcd-based-mesosmaster-detector && cd /opt/etcd-based-mesosmaster-detector
-# git clone https://github.com/apache/mesos.git
+# git clone git@github.ibm.com:platformcomputing/mesos.git
 # cd mesos
 # git pull --all
-# git checkout 1.0.0-rc2
-Note: checking out '1.0.0-rc2'.
+# git checkout origin/ibm-1.0.x
+Note: checking out 'origin/ibm-1.0.x'.
 
 You are in 'detached HEAD' state. You can look around, make experimental
 changes and commit them, and you can discard any commits you make in this
@@ -56,42 +56,7 @@ do so (now or later) by using -b with the checkout command again. Example:
 
   git checkout -b new_branch_name
 
-HEAD is now at 9c8bfa9... Pulled APIs into a separate section in docs/home.md.
-```
-
-Checkout the mesos-etcd-module code:
-
-```
-# cd ..
-# git clone git@github.ibm.com:platformcomputing/mesos-etcd-module.git
-```
-
-Copy the Mesos changes for etcd-based master detector module to mesos:
-```
-# cp -r mesos-etcd-module/patch-on-1.0.x/src/* mesos/src/
-# cp -r mesos-etcd-module/patch-on-1.0.x/include/mesos/* mesos/include/mesos/
-# git status
-HEAD detached at 1.0.0-rc2
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	modified:   include/mesos/log/log.hpp
-	modified:   src/Makefile.am
-	modified:   src/log/log.cpp
-	modified:   src/log/log.hpp
-	modified:   src/log/network.hpp
-	modified:   src/master/main.cpp
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-	include/mesos/etcd/
-	src/etcd/
-	src/log/network.cpp
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
+HEAD is now at 9322fde... Modularize PID Group.
 ```
 
 Build Mesos
@@ -101,7 +66,6 @@ Build Mesos
 # apt-get install -y openjdk-7-jdk
 # apt-get install -y autoconf libtool
 # apt-get -y install build-essential python-dev libcurl4-nss-dev libsasl2-dev libsasl2-modules maven libapr1-dev libsvn-dev
-# cd mesos
 # ./bootstrap
 # mkdir build && cd build
 # ../configure --enable-install-module-dependencies --prefix=/opt/mesosinstall
@@ -132,7 +96,13 @@ export LD_LIBRARY_PATH=${prefix}/lib
 export MESOS_LAUNCHER_DIR=${prefix}/libexec/mesos
 export MESOS_EXECUTOR_ENVIRONMENT_VARIABLES="{\"PATH\": \"${PATH}\",\"LD_LIBRARY_PATH\": \"${LD_LIBRARY_PATH}\"}"
 export MESOS_WEBUI_DIR=${prefix}/share/mesos/webui
+```
 
+Checkout the mesos-etcd-module code:
+
+```
+# cd /opt/etcd-based-mesosmaster-detector
+# git clone git@github.ibm.com:platformcomputing/mesos-etcd-module.git
 ```
 
 Build mesos etcd moudle:
@@ -171,11 +141,14 @@ Checkout the ibm kubernetes and switch the ibm-release-1.3 branch:
 ```
 # mkdir -p /opt/k8s-workspace/src/k8s.io && cd /opt/k8s-workspace/src/k8s.io
 # git clone git@github.ibm.com:platformcomputing/kubernetes.git
+# cd kubernetes/
 # git checkout ibm-release-1.3
+Branch ibm-release-1.3 set up to track remote branch ibm-release-1.3 from origin.
+Switched to a new branch 'ibm-release-1.3'
 # git pull origin ibm-release-1.3
 ```
 
-Check the latest commit id of ibm kubernetes is **cf15050199db27e2a38a9438cbc9b57c9ba9ba34**
+Check the latest commit id of ibm kubernetes is **b609e047c50bd4d1d65a7f37aa09836a92b72cfb**
 
 Checkout the ibm mesos-go:
 ```
@@ -355,32 +328,45 @@ Prepare the etcd module configuration file:
 ```
 # vim /opt/mesosinstall/etcd_module.json
 {
-  "libraries": [
-    {
-      "file": "/opt/mesosinstall/libmesos_etcd_module-0.1.so",
-      "modules": [
-        {
-          "name": "org_apache_mesos_EtcdMasterContender",
-          "parameters": [
-           {
-             "key": "url",
-             "value": "etcd://9.111.255.10:2379,9.111.254.41:2379,9.111.255.50:2379/v2/keys/master"
-           }
-          ]
-        },
-        {
-          "name": "org_apache_mesos_EtcdMasterDetector",
-          "parameters": [
-           {
-             "key": "url",
-             "value": "etcd://9.111.255.10:2379,9.111.254.41:2379,9.111.255.50:2379/v2/keys/master"
-           }
-          ]
-        }
-      ]
-    }
-  ]
-}
+   "libraries": [
+     {
+       "file": "/opt/mesosinstall/libmesos_etcd_module-0.1.so",
+       "modules": [
+         {
+           "name": "org_apache_mesos_EtcdMasterContender",
+           "parameters": [
+            {
+              "key": "url",
+              "value": "etcd://9.111.255.10:2379,9.111.254.41:2379,9.111.255.50:2379/v2/keys/master"
+            }
+           ]
+         },
+         {
+           "name": "org_apache_mesos_EtcdMasterDetector",
+           "parameters": [
+            {
+              "key": "url",
+              "value": "etcd://9.111.255.10:2379,9.111.254.41:2379,9.111.255.50:2379/v2/keys/master"
+            }
+           ]
+         },
+         {
+           "name": "org_apache_mesos_EtcdPIDGroup",
+           "parameters": [
+            {
+              "key": "url",
+              "value": "etcd://9.111.255.10:2379,9.111.254.41:2379,9.111.255.50:2379/v2/keys/replicated_log"
+            },
+            {
+              "key": "ttl",
+              "value": "10secs"
+            }
+           ]
+         }
+       ]
+     }
+   ]
+ }
 ```
 
 Start Mesos master on each node:
@@ -393,7 +379,7 @@ Start Mesos master on each node:
   --modules="file:///opt/mesosinstall/etcd_module.json" \
   --master_contender=org_apache_mesos_EtcdMasterContender \
   --master_detector=org_apache_mesos_EtcdMasterDetector \
-  --etcd=etcd://9.111.255.10:2379,9.111.254.41:2379,9.111.255.50:2379/v2/keys/replicated_log \
+  --pid_group=org_apache_mesos_EtcdPIDGroup \
   --registry_fetch_timeout=10mins \
   --quorum=2
 ```
@@ -404,7 +390,8 @@ Start Mesos agent on each node:
 # . /opt/mesosinstall/sbin/mesos-daemon.sh mesos-slave \
   --work_dir=/var/lib/mesos-slave  \
   --log_dir=/opt/mesos-slave-log \
-  --modules="file:///opt/mesosinstall/etcd_module.json" --master_detector=org_apache_mesos_EtcdMasterDetector \
+  --modules="file:///opt/mesosinstall/etcd_module.json" \
+  --master_detector=org_apache_mesos_EtcdMasterDetector \
   --executor_registration_timeout=20mins
 ```
 
@@ -515,6 +502,20 @@ DOCKER_OPTS="--bip=172.16.54.1/24 --mtu=1472"
 export http_proxy=http://9.21.63.156:3128/
 # service docker restart
 ```
+
+
+#### Verify the installation
+- Log on the Mesos portal the check the registered Mesos agent and framework.
+- Run pods in kubernetes.
+```
+# kubectl run --image=nginx nginx-app --port=80 --env="DOMAIN=cluster"
+deployment "nginx-app" created
+# kubectl get pods
+NAME                         READY     STATUS    RESTARTS   AGE
+nginx-app-2453852122-et97p   1/1       Running   0          4m
+```
+
 #### Supportor
 Yongqiao Wang (yqwyq@cn.ibm.com)
+
 
