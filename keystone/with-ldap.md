@@ -3,42 +3,135 @@
 ### Deploy LDAP for Keystone
 Refer the [offical document](https://wiki.openstack.org/wiki/OpenLDAP) for the details.
 
-Main steps on Centos 7 as below:
+Main steps on Ubuntu as below:
 ```
-# yum list | grep openldap-servers
-Failed to set locale, defaulting to C
-openldap-servers.x86_64                    2.4.40-9.el7_2              @updates
-openldap-servers-sql.x86_64                2.4.40-9.el7_2              updates
-# yum install openldap-servers.x86_64
-# service slapd start
-Redirecting to /bin/systemctl start  slapd.service
+# sudo apt-get install -y slapd ldap-utils
+# sudo dpkg-reconfigure slapd
+Omit OpenLDAP server configuration? No
+DNS Domain Name: ibm.com
+Organization name: cfc
+Database backend to use: HBD
+Do you want the database to be removed when slapd is purged? Yes
+Move old database? Yes
+Allow LDAPv2 protocol? Yes
+```
+Verification: 
+```
+# ldapsearch -x -W -D"cn=admin,dc=ibm,dc=com" -b dc=ibm,dc=com }}
+Enter LDAP Password:
+# extended LDIF
+#
+# LDAPv3
+# base <dc=ibm,dc=com> with scope subtree
+# filter: (objectclass=*)
+# requesting: }}
+#
+
+# ibm.com
+dn: dc=ibm,dc=com
+
+# admin, ibm.com
+dn: cn=admin,dc=ibm,dc=com
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
 ```
 
-Decide on a root password and hash it by running:
+Initialize the LDAP for Keystone
 ```
-# slappasswd -h {SSHA} -s Letmein123
-{SSHA}YZOSuKzHQy1WpdmsIe6LFMIAAHBB+19q
-```
-Now create a file named manager.ldif like this:
-```
-# cat /tmp/manager.ldif
-dn:  olcDatabase={2}hdb,cn=config
-changetype: modify
-replace: olcSuffix
-olcSuffix: dc=ibm,dc=org
--
-replace: olcRootDN
-olcRootDN: dc=cwc,dc=ibm,dc=org
--
-add: olcRootPW
-olcRootPW: {SSHA}YZOSuKzHQy1WpdmsIe6LFMIAAHBB+19q
+# cat /tmp/keystoneldapinit.ldif
+dn: ou=Groups,dc=ibm,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+dn: ou=Users,dc=ibm,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: users
+
+# ldapadd -x -W -D"cn=admin,dc=ibm,dc=com" -f /tmp/keystoneldapinit.ldif
+Enter LDAP Password:
+adding new entry "ou=Groups,dc=ibm,dc=com"
+
+adding new entry "ou=Users,dc=ibm,dc=com"
+
+# ldapsearch -x -W -D"cn=admin,dc=ibm,dc=com" -b dc=ibm,dc=com
+Enter LDAP Password:
+# extended LDIF
+#
+# LDAPv3
+# base <dc=ibm,dc=com> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# ibm.com
+dn: dc=ibm,dc=com
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: cfc
+dc: ibm
+
+# admin, ibm.com
+dn: cn=admin,dc=ibm,dc=com
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9R0pmZUgwTFRmMXR1NzRTQlFNbWVDWitBUmlTNndvL2o=
+
+# Groups, ibm.com
+dn: ou=Groups,dc=ibm,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+# Users, ibm.com
+dn: ou=Users,dc=ibm,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: users
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 5
+# numEntries: 4
 ```
 
-Now configure your Open LDAP server by running:
+### [Install Keystone](http://docs.openstack.org/developer/keystone/installing.html)
 ```
-# ldapmodify -Y EXTERNAL -H ldapi:/// -f /tmp/manager.ldif
-SASL/EXTERNAL authentication started
-SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
-SASL SSF: 0
-modifying entry "olcDatabase={2}hdb,cn=config"
+# export LANGUAGE=en_US.UTF-8 
+# export LANG=en_US.UTF-8 
+# export LC_ALL=en_US.UTF-8 
+# locale-gen en_US.UTF-8 dpkg-reconfigure locales
+# sudo apt-get install -y keystone
+# apt-get install -y policycoreutils
+# setsebool -P authlogin_nsswitch_use_ldap on
+
+# export ENDPOINT=9.21.63.177
+# export SERVICE_TOKEN=ADMIN
+# export SERVICE_ENDPOINT=http://${ENDPOINT}:35357/v2.0
+# keystone user-list
+vim /etc/keystone.conf
+
+ 
+
+[DEFAULT]
+
+admin_token=ae3b19ba29ee81a66b3a
+
+verbose = true
+
+log_dir = /var/log/keystone
 ```
+
+### Configure Keystone with LDAP driver
+
