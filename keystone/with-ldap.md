@@ -131,6 +131,14 @@ admin_token=ae3b19ba29ee81a66b3a
 verbose = true
 
 log_dir = /var/log/keystone
+
+# curl -H "X-Auth-Token:ADMIN" http://localhost:35357/v2.0/tenants/admin/users | python -m json.tool
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    13  100    13    0     0    555      0 --:--:-- --:--:-- --:--:--   565
+{
+    "users": []
+}
 ```
 
 ### Configure Keystone with LDAP driver
