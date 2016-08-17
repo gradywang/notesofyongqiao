@@ -150,5 +150,9 @@ export OS_IDENTITY_API_VERSION=2.0
 export OS_IMAGE_API_VERSION=2
 ```
 
+```
+ldapsearch -x -W -D"cn=admin,dc=ibm,dc=com" -b dc=ibm,dc=com
+```
+
 ### Configure Keystone with LDAP driver
 
