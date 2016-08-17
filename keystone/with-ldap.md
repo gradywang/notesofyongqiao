@@ -139,6 +139,15 @@ log_dir = /var/log/keystone
 {
     "users": []
 }
+
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_NAME=admin
+export OS_USERNAME=admin
+export OS_PASSWORD=admin
+export OS_AUTH_URL=http://9.21.63.177:35357/v2.0
+export OS_IDENTITY_API_VERSION=2.0
+export OS_IMAGE_API_VERSION=2
 ```
 
 ### Configure Keystone with LDAP driver
