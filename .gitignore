@@ -1,0 +1,6 @@
+.DS_Store
+.project
+
+languages/go/pkg/*
+languages/go/bin/*
+languages/go/src/github.com
