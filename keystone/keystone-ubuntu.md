@@ -1,11 +1,11 @@
 # Install keystone on ubuntu 14.04
 
 ## Install mysql
-	```
-	# sudo apt-get update
-	# sudo apt-get install mysql-server
-    # mysql -uroot -pLetmein123
-	```
+```
+# sudo apt-get update
+# sudo apt-get install mysql-server
+# mysql -uroot -pLetmein123
+```
 
 ## Configure database for keystone
 	```
