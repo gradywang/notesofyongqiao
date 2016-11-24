@@ -17,6 +17,7 @@ DHCP服务：
 第二块：仅主机（Host-Only）适配器
 ```
 - 启动虚拟机，配置网络：
+**注意：用ipconfig查看VirtualBox Host-Only Network的网关，必须和eth1的配置一直。如果没有配置，都不要配**
 ```
 # cat /etc/network/interfaces
 # This file describes the network interfaces available on your system
