@@ -73,4 +73,8 @@ PING baidu.com (123.125.114.144) 56(84) bytes of data.
 64 bytes from 123.125.114.144: icmp_seq=4 ttl=51 time=128 ms
 ```
 - 测试主机联通虚拟机 - 通过xShell等工具登录。
-
+- 修改主机名
+```
+# hostnamectl set-hostname centos7host1.wyq.com
+# vim /etc/hosts
+```
