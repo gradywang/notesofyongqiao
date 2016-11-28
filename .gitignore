@@ -1,5 +1,6 @@
 .DS_Store
 .project
+.settings
 
 languages/go/pkg/*
 languages/go/bin/*
