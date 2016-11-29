@@ -4,7 +4,8 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends software-properties-common \
     && add-apt-repository -y cloud-archive:mitaka \
     && apt-get update \
-    && apt-get -y install --no-install-recommends keystone mysql-client python-openstackclient
+    && apt-get -y install --no-install-recommends keystone mysql-client python-openstackclient \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY keystone.sh /opt/keystone/keystone.sh
 COPY keystone.sql /opt/keystone/keystone.sql
