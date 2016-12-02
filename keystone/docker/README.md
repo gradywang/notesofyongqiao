@@ -17,7 +17,6 @@
 ```
 
 ## Init the keystone service
-
 ```
 # docker exec keystone /etc/keystone/initkeystone.sh
 /etc/keystone/initkeystone.sh: connect: Connection refused
