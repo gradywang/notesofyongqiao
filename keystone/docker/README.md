@@ -17,15 +17,24 @@
 ```
 
 ## Init the keystone service
+
 ```
 # docker exec keystone /etc/keystone/initkeystone.sh
+/etc/keystone/initkeystone.sh: connect: Connection refused
+/etc/keystone/initkeystone.sh: line 20: /dev/tcp/127.0.0.1/35357: Connection refused
+The default admin user is : admin
+The default admin user password is : Letmein123
+The default domain is : default
+The default admin role is : admin
+/etc/keystone/initkeystone.sh: connect: Connection refused
+/etc/keystone/initkeystone.sh: line 20: /dev/tcp/127.0.0.1/35357: Connection refused
 No service with a type, name or ID of 'keystone' exists.
 +-------------+----------------------------------+
 | Field       | Value                            |
 +-------------+----------------------------------+
 | description | OpenStack Identity               |
 | enabled     | True                             |
-| id          | 46b8e7d833864fedb0c0a1a8bea29353 |
+| id          | b7dcda89101e4157a7d87f7e28095735 |
 | name        | keystone                         |
 | type        | identity                         |
 +-------------+----------------------------------+
@@ -33,11 +42,11 @@ No service with a type, name or ID of 'keystone' exists.
 | Field        | Value                            |
 +--------------+----------------------------------+
 | enabled      | True                             |
-| id           | c86da1d4fd98417f90285c0136ddf7f9 |
+| id           | 13da63508b924dacae9581c552184bcc |
 | interface    | public                           |
 | region       | RegionOne                        |
 | region_id    | RegionOne                        |
-| service_id   | 46b8e7d833864fedb0c0a1a8bea29353 |
+| service_id   | b7dcda89101e4157a7d87f7e28095735 |
 | service_name | keystone                         |
 | service_type | identity                         |
 | url          | http://localhost:5000/v3         |
@@ -46,11 +55,11 @@ No service with a type, name or ID of 'keystone' exists.
 | Field        | Value                            |
 +--------------+----------------------------------+
 | enabled      | True                             |
-| id           | f65f34425d1f4f5aa9903283f8e54a3f |
+| id           | 6702baa618e744ee89d283c9dfd44a44 |
 | interface    | internal                         |
 | region       | RegionOne                        |
 | region_id    | RegionOne                        |
-| service_id   | 46b8e7d833864fedb0c0a1a8bea29353 |
+| service_id   | b7dcda89101e4157a7d87f7e28095735 |
 | service_name | keystone                         |
 | service_type | identity                         |
 | url          | http://localhost:5000/v3         |
@@ -59,11 +68,11 @@ No service with a type, name or ID of 'keystone' exists.
 | Field        | Value                            |
 +--------------+----------------------------------+
 | enabled      | True                             |
-| id           | 273b7367e94b4e9ebc88705fe96f5cf2 |
+| id           | 22a6857649814ecc9d82781933d05759 |
 | interface    | admin                            |
 | region       | RegionOne                        |
 | region_id    | RegionOne                        |
-| service_id   | 46b8e7d833864fedb0c0a1a8bea29353 |
+| service_id   | b7dcda89101e4157a7d87f7e28095735 |
 | service_name | keystone                         |
 | service_type | identity                         |
 | url          | http://localhost:35357/v3        |
@@ -73,9 +82,9 @@ No user with a name or ID of 'admin' exists.
 +-----------+----------------------------------+
 | Field     | Value                            |
 +-----------+----------------------------------+
-| domain_id | 49c5af3f52f94153976d971f25585aec |
+| domain_id | 55298f5e487d43d2836efa1e2bd97ce0 |
 | enabled   | True                             |
-| id        | 479a2a3f85644276879599c5d6918108 |
+| id        | 94c91ba6ae494385a3c1fd0b691da483 |
 | name      | admin                            |
 +-----------+----------------------------------+
 No role with a name or ID of 'admin' exists.
