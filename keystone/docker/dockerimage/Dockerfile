@@ -10,4 +10,5 @@ RUN apt-get update \
 COPY keystone.sh /var/keystone/keystone.sh
 COPY initdb.sql /etc/keystone/initdb.sql
 COPY keystone.conf /etc/keystone/keystone.conf
+RUN chmod +x /var/keystone/keystone.sh
 CMD /var/keystone/keystone.sh
