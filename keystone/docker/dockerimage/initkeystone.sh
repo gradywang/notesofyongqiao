@@ -9,6 +9,11 @@ DEFAULT_ADMIN_PASS=Letmein123
 DEFAULT_ADMIN_ROLE=admin
 DEFAULT_DOMAIN=default
 
+echo "The default admin user is : ${DEFAULT_ADMIN_USER}"
+echo "The default admin user password is : ${DEFAULT_ADMIN_PASS}"
+echo "The default domain is : ${DEFAULT_DOMAIN}"
+echo "The default admin role is : ${DEFAULT_ADMIN_ROLE}"
+
 EXTERNAL_IP=${1:-localhost}
 
 while true; do
