@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends keystone mysql-client python-openstackclient \
     && rm -rf /var/lib/apt/lists/*
 
-COPY keystone.sh /opt/keystone/keystone.sh
-COPY keystone.sql /opt/keystone/keystone.sql
+COPY keystone.sh /var/keystone/keystone.sh
+COPY keystone.sql /etc/keystone/initdb.sql
 COPY keystone.conf /etc/keystone/keystone.conf
-CMD /opt/keystone/keystone.sh
+CMD /var/keystone/keystone.sh

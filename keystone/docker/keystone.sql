@@ -1,5 +1,0 @@
-CREATE DATABASE IF NOT EXISTS keystone;
-GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'Letmein123';
-GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'Letmein123';
-FLUSH PRIVILEGES;
-

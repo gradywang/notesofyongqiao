@@ -2,7 +2,6 @@
 
 ## Start mariadb for keystone service
 ```
-# docker pull mariadb:10.1.16
 # docker run -d \
     --name mariadb \
     -e MYSQL_ROOT_PASSWORD=Letmein123 \
