@@ -8,6 +8,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY keystone.sh /var/keystone/keystone.sh
-COPY keystone.sql /etc/keystone/initdb.sql
+COPY initdb.sql /etc/keystone/initdb.sql
 COPY keystone.conf /etc/keystone/keystone.conf
 CMD /var/keystone/keystone.sh
