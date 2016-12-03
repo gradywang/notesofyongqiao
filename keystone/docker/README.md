@@ -13,6 +13,7 @@
 # docker run -d \
     --name keystone \
     -e MYSQL_SERVER_PASSWORD=Letmein123 \
+    -v `pwd`:/var/keystone \
     --net host gradywang/keystone:mitaka
 ```
 
