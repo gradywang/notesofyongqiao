@@ -28,9 +28,16 @@ openstack endpoint list | awk '/keystone/ && /public/' | grep -w keystone || ope
 openstack endpoint list | awk '/keystone/ && /internal/' | grep -w keystone || openstack endpoint create --region RegionOne identity internal http://${EXTERNAL_IP}:5000/v3
 openstack endpoint list | awk '/keystone/ && /admin/' | grep -w keystone || openstack endpoint create --region RegionOne identity admin http://${EXTERNAL_IP}:35357/v3
 
-domain_id=$(openstack domain show ${DEFAULT_DOMAIN} -c id -f value || openstack domain create --description "Default Domain" ${DEFAULT_DOMAIN} -c id -f value)
-
+domain_id=$(openstack domain show ${DEFAULT_DOMAIN} -c id -f value || openstack domain create --description "Cloud Admin Domain" ${DEFAULT_DOMAIN} -c id -f value)
+ 
 openstack user show ${DEFAULT_ADMIN_USER} || openstack user create --domain ${DEFAULT_DOMAIN} --password ${DEFAULT_ADMIN_PASS} ${DEFAULT_ADMIN_USER}
 
 role_id=$(openstack role show ${DEFAULT_ADMIN_ROLE} -c id -f value || openstack role create ${DEFAULT_ADMIN_ROLE} -c id -f value)
 openstack role assignment list | grep -w User || openstack role add --domain ${DEFAULT_DOMAIN} --user ${DEFAULT_ADMIN_USER} --user-domain ${DEFAULT_DOMAIN} ${DEFAULT_ADMIN_ROLE}
+
+# Replace cloud domain id in policy.json
+sed -i "s+admin_domain_id+${domain_id}+g" /etc/keystone/policy.json
+
+
+
+
