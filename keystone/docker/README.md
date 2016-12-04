@@ -8,7 +8,7 @@
     --net host mariadb:10.1.16
 ```
 
-## (Optional) Configure the keystone service
+## Start the keystone service with custom configurations
 ```
 # ll $(pwd)/keystone
 ls: cannot access /opt/keystone: No such file or directory
@@ -28,15 +28,20 @@ drwxr-xr-x 5 root root  4096 Dec  4 20:18 ../
 -rw-r--r-- 1 root root 14536 Dec  4 20:19 policy.json
 
 You can change those configuration files and start script before start the keystone service.
-```
 
-## Start keystone service
-```
 # docker run -d \
     --name keystone \
     -e MYSQL_SERVER_PASSWORD=Letmein123 \
     -v `pwd`/keystone:/var/keystone \
     --net host gradywang/keystone:mitaka /var/keystone/keystone.sh
+```
+
+## Start keystone service with OOB configuration
+```
+# docker run -d \
+    --name keystone \
+    -e MYSQL_SERVER_PASSWORD=Letmein123 \
+    --net host gradywang/keystone:mitaka
 ```
 
 ## Init the keystone service
