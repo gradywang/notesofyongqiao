@@ -24,3 +24,15 @@
 - Domian 
 	- 云服务的客户，一个独立的组织，在逻辑上，命名空间中需要和其他组织隔离的的实体；
 	- 组织中的管理员有权限为这个组织创建结构（user,group），资源划分（project）和权限（role）的分配等； 
+
+- Project
+	- 用来对资源或者实体进行分组或者隔离，可以映射到一个账户或者群组；
+	- Project在创建的一刻就决定了他的归属（只能属于某一个且只能属于某一个Domain，创建Project时可以指定Domain，如果不指定用Token中的Domain），也就是说一个Domain中不能存在同名Project；
+	
+- Group
+	- 标识一个Domain中的一组用户，他们具有相同的Role，对相同额Project或者Domain具有操作权限；在同一个Group中增加或者删除一个用户，同时增加或者删除他们的角色和对某些project和domain的操作权限。
+	- Group在创建的一刻就决定了他的归属（只能属于某一个且只能属于某一个Domain，创建Group时可以指定Domain，如果不指定用Token中的Domain），也就是说一个Domain中不能存在同名Group；
+	
+- Role
+	- 表示对Keystone所管理服务的一组操作权限(在每一个服务的policy.json中定义)；
+	- Keystone发布的Scoped Token中带有一组Role，当用户用此Token访问服务时，每一个服务会检查Token中携带的这组Role是不是有权限进行对应的操作。
