@@ -73,7 +73,7 @@ MIIFfwYJKoZIhvcNAQcCoIIFcDCCBWwCAQExDTALBglghkgBZQMEAgEwggPNBgkqhkiG9w0BBwGgggO+
     }
 }' http://${KEYSTONE_SERVER}:5000/v3/domains | python -mjson.tool
 
-c419495ae28d43fc9085311b3ca4829e
+01eb131c62274c53adf475dd95e15928
 ```
 
 ## Create the admin user for telnet 
@@ -84,14 +84,14 @@ c419495ae28d43fc9085311b3ca4829e
   -d '
 {
     "user": {
-        "domain_id": "c419495ae28d43fc9085311b3ca4829e", 
+        "domain_id": "01eb131c62274c53adf475dd95e15928", 
         "name": "user1", 
         "password": "Letmein123", 
         "description": "User description"
     }
 }' http://${KEYSTONE_SERVER}:5000/v3/users | python -mjson.tool
 
-3898cea9c35b4d8b9986a09abf9feacc
+1f70761013d94b08b3cb7201e5f9d1df
 ```
 
 ## Create role for telnet admin
@@ -102,21 +102,18 @@ c419495ae28d43fc9085311b3ca4829e
   -d '
 {
     "role": {
-        "domain_id": "c419495ae28d43fc9085311b3ca4829e", 
+        "domain_id": "01eb131c62274c53adf475dd95e15928", 
         "name": "telnetadmin", 
         "description": "Role description"
     }
 }' http://${KEYSTONE_SERVER}:5000/v3/roles | python -mjson.tool
 
-83360ec3e5884ce0916979517f80fb71
+ab2d0f8fe63544ae822f392957642a7c
 ```
 
 ## Assign telnet admin user to telnet domain with the telnet admin role
 ```
-#　curl -s \
-　　-X PUT \
-   -H "X-Auth-Token: $OS_TOKEN" \
-   http://${KEYSTONE_SERVER}:5000/v3/domains/c419495ae28d43fc9085311b3ca4829e/users/3898cea9c35b4d8b9986a09abf9feacc/roles/83360ec3e5884ce0916979517f80fb71
+#　curl -i -X "PUT" -H "X-Auth-Token: $OS_TOKEN" http://${KEYSTONE_SERVER}:5000/v3/domains/01eb131c62274c53adf475dd95e15928/users/1f70761013d94b08b3cb7201e5f9d1df/roles/ab2d0f8fe63544ae822f392957642a7c
 ```
 
 ## Get get the domain-scoped token of telnet administrator
