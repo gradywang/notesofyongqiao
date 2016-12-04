@@ -2,7 +2,7 @@ Cloud Admin and Domain Admin
 https://www.rdoproject.org/documentation/domains/
 
 # Keystone V3 API
-export KEYSTONE_SERVER=192.168.56.103
+export KEYSTONE_SERVER=192.168.56.101
 
 ## Get get the domain-scoped token of cloud administrator
 ```
@@ -490,3 +490,51 @@ Token不携带catalog。
     }
 }
 ```
+
+## Assign telnet user to telnet domain with nomal role
+```
+# curl -i -X "PUT" -H "X-Auth-Token: $OS_TOKEN" http://${KEYSTONE_SERVER}:5000/v3/projects/f1bb57baaac34121b8fd7320d5ba91f2/users/af355e22de7b46fca2be15052f093f3e/roles/ef7f940f367b4e538340da08295bea29
+```
+
+
+## Assign telnet user to telnet domain with nomal role
+```
+# curl -i -X "PUT" -H "X-Auth-Token: $OS_TOKEN" http://${KEYSTONE_SERVER}:5000/v3/domains/f5d1fe9c284d441cb89a1c553fc242a0/users/af355e22de7b46fca2be15052f093f3e/roles/ef7f940f367b4e538340da08295bea29
+```
+
+
+## Get get the domain-scoped token of telnet administrator
+```
+# OS_TOKEN=$(\
+curl http://${KEYSTONE_SERVER}:5000/v3/auth/tokens?nocatalog  \
+    -s \
+    -i \
+    -H "Content-Type: application/json" \
+    -d '
+{
+    "auth": {
+        "identity": {
+            "methods": [
+                "password"
+            ],
+            "password": {
+                "user": {
+                    "domain": {
+                        "name": "telnet1"
+                    },
+                    "name": "telnetUser1",
+                    "password": "Letmein123"
+                }
+            }
+        },
+        "scope": {
+            "project": {
+                "name": "telnetProject",
+                "domain": { "name": "telnet1" }
+            }
+        }
+    }
+}' | grep ^X-Subject-Token: | awk '{print $2}' ); echo $OS_TOKEN
+MIIDdAYJKoZIhvcNAQcCoIIDZTCCA2ECAQExDTALBglghkgBZQMEAgEwggHCBgkqhkiG9w0BBwGgggGzBIIBr3sidG9rZW4iOnsiZG9tYWluIjp7ImlkIjoiZjVkMWZlOWMyODRkNDQxY2I4OWExYzU1M2ZjMjQyYTAiLCJuYW1lIjoidGVsbmV0MSJ9LCJtZXRob2RzIjpbInBhc3N3b3JkIl0sInJvbGVzIjpbeyJpZCI6ImVhMWU0ZWQ2OThkZjQwOWE4NGE3YTZlNTYyMDA5MzI0IiwibmFtZSI6ImFkbWluIn1dLCJleHBpcmVzX2F0IjoiMjAxNi0xMi0wNFQwNTo1NDo1OS41NDc5NjNaIiwidXNlciI6eyJkb21haW4iOnsiaWQiOiJmNWQxZmU5YzI4NGQ0NDFjYjg5YTFjNTUzZmMyNDJhMCIsIm5hbWUiOiJ0ZWxuZXQxIn0sImlkIjoiNjMyN2YxZGQ3OTE0NGY1ZmJiMDAwN2M0YWNkNTA4NDIiLCJuYW1lIjoidGVsbmV0QWRtaW4ifSwiYXVkaXRfaWRzIjpbIjFLN1RZUGkwUnlLN09xbUNkcVYwbFEiXSwiaXNzdWVkX2F0IjoiMjAxNi0xMi0wNFQwNDo1NDo1OS41NDc5ODJaIn19MYIBhTCCAYECAQEwXDBXMQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVW5zZXQxDjAMBgNVBAcMBVVuc2V0MQ4wDAYDVQQKDAVVbnNldDEYMBYGA1UEAwwPd3d3LmV4YW1wbGUuY29tAgEBMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAG+BC4-iW4djamKeqn4BXMShaLLXWhxDieJKwdipZr3IdJ0P3TkmQ4zfknTZsu7uLE9JP1YHO+GCwA9F3Q1xoQX1vimc35aEMaVqNikM4c2xqgtbQNYoJCWtUz+KTyNjDpxsUs9nbeAVWHOzzt8UdFUxx0k00b3luzmDuxYBt2owo44pJLxtXk0x9q+TBhAuLOGM7be1JXRC2l874l3rCRwLRZskbO2fm5om1ipCMXtil8h7-uyp27eE9E7cyRsncWtvggrEVI+5I1Gpyb8pRt47EaPTZaQbJZBo3rDI5NzmgivsSnPh+q4kJp4ifZvBG43SgkkrQx3lcVsbYL0g4I
+```
+
