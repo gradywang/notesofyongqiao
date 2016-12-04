@@ -238,7 +238,7 @@ Token不携带catalog。
 ```
 ## Get catalog
 ```
-# curl -s -H "X-Auth-Token: $OS_TOKEN" -H "X-Subject-Token: $OS_TOKEN" -H "Content-Type: application/json"  http://${KEYSTONE_SERVER}:5000/v3/auth/catalog | python -m json.tool
+# curl -s -H "X-Auth-Token: $OS_TOKEN" -H "Content-Type: application/json"  http://${KEYSTONE_SERVER}:5000/v3/auth/catalog | python -m json.tool
 ```
 
 ## List users:
@@ -275,6 +275,7 @@ Token不携带catalog。
     ]
 }
 ```
+
 ## Create the telnet user with telnet domain 
 ```
 # curl -s \
@@ -325,3 +326,4 @@ Token不携带catalog。
     }
 }
 ```
+
