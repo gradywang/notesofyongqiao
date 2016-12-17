@@ -71,6 +71,7 @@ total 12
 ## Start cinder-volume
 ```
 # docker run -d \
+    --privileged \
     --name cinder-volume \
     --hostname cinder-volume \
     --net host gradywang/cinder:mitaka /var/cinder/cinder-volume.sh
