@@ -68,7 +68,13 @@ total 12
     --net host gradywang/cinder:mitaka /var/cinder/cinder-scheduler.sh
 ```
 
-
+## Start cinder-volume
+```
+# docker run -d \
+    --name cinder-volume \
+    --hostname cinder-volume \
+    --net host gradywang/cinder:mitaka /var/cinder/cinder-volume.sh
+```
 
 
 
