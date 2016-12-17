@@ -41,5 +41,5 @@ fi
 
 service cinder-scheduler restart
 
-tail -f /var/log/cinder/cinder-scheduler.log
+/usr/bin/python /usr/bin/cinder-scheduler --config-file=/etc/cinder/cinder.conf
 

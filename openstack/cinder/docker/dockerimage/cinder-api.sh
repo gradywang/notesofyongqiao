@@ -39,7 +39,5 @@ if [ -f /var/cinder/policy.json ]; then
     cp -f /var/cinder/policy.json /etc/cinder/policy.json
 fi
 
-service cinder-api restart
-
-tail -f /var/log/cinder/cinder-api.log
+/usr/bin/python /usr/bin/cinder-api --config-file=/etc/cinder/cinder.conf
 
