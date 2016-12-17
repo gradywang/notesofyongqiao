@@ -28,9 +28,11 @@ total 8
 # chmod +x /openstack/scripts/cinder/initkeystone.sh
 
 # ll /openstack/scripts/cinder
-total 8
--rwxr-xr-x. 1 root root  589 Dec 16 20:48 init-cinder-db.sh
--rwxr-xr-x. 1 root root 2192 Dec 16 20:48 initkeystone.sh
+total 12
+-rwxr-xr-x. 1 root root  589 Dec 16 21:46 init-cinder-db.sh
+-rw-r--r--. 1 root root  218 Dec 16 21:47 init-cinder-db.sql
+-rwxr-xr-x. 1 root root 2192 Dec 16 21:48 initkeystone.sh
+
 
 # docker exec keystone /openstack/scripts/cinder/initkeystone.sh
 ```
@@ -48,7 +50,10 @@ total 8
 
 ## Start cinder-api
 ```
-
+# docker run -d \
+    --name cinder-api \
+    --hostname cinder-api \
+    --net host gradywang/cinder:mitaka /var/cinder/cinder-api.sh
 ```
 
 
