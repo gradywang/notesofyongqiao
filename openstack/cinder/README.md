@@ -49,10 +49,7 @@ total 12
 
 ## Sync up cinder database
 ```    
-# docker run -d \
-    --name syncdb \
-    --hostname syncdb \
-    --net host gradywang/cinder:mitaka /var/cinder/sync-cinder-db.sh
+# docker run --rm --net host gradywang/cinder:mitaka /var/cinder/sync-cinder-db.sh
 ```
 
 ## Start cinder-api
