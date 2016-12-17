@@ -5,6 +5,7 @@
 # docker run -d \
     --name mariadb \
     -e MYSQL_ROOT_PASSWORD=Letmein123 \
+    -v /openstack/scripts:/openstack/scripts \
     --net host mariadb:10.1.16
 ```
 
@@ -33,6 +34,7 @@ You can change those configuration files and start script before start the keyst
     --name keystone \
     -e MYSQL_SERVER_PASSWORD=Letmein123 \
     -v `pwd`/keystone:/var/keystone \
+    -v /openstack/scripts:/openstack/scripts \
     --net host gradywang/keystone:mitaka /var/keystone/keystone.sh
 ```
 
@@ -41,6 +43,7 @@ You can change those configuration files and start script before start the keyst
 # docker run -d \
     --name keystone \
     -e MYSQL_SERVER_PASSWORD=Letmein123 \
+    -v /openstack/scripts:/openstack/scripts \
     --net host gradywang/keystone:mitaka
 ```
 

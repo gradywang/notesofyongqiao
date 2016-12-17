@@ -8,7 +8,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends cinder-api cinder-scheduler cinder-volume mysql-client python-openstackclient \
     && rm -rf /var/lib/apt/lists/*
 
-COPY init-cinder-db.sql /etc/cinder/init-cinder-db.sql
+COPY init-cinder-db.sh /etc/cinder/init-cinder-db.sh
 COPY initkeystone.sh /etc/cinder/initkeystone.sh
 
 COPY cinder-api.sh /var/cinder/cinder-api.sh

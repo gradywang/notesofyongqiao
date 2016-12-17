@@ -6,12 +6,20 @@ Before the following steps, it assumes that the keystone identity service has be
 ```
 # docker run --rm \
     --entrypoint=cp \
-    -v "$(pwd)/cinder":/opt/cinder \
+    -v "/openstack/scripts/cinder":/opt/cinder \
     gradywang/cinder:mitaka /etc/cinder/init-cinder-db.sql /opt/cinder
 
-Copy init-cinder-db.sql to the mariadb container:
-# docker exec mariadb bash -c 'cat > $(pwd)/cinder/init-cinder-db.sql' < /opt/cinder/init-cinder-db.sql
-# docker exec mariadb mysql -pLetmein123 < /opt/cinder/init-cinder-db.sql
+# docker run --rm \
+    --entrypoint=cp \
+    -v "/openstack/scripts/cinder":/opt/cinder \
+    gradywang/cinder:mitaka /etc/cinder/initkeystone.sh /opt/cinder
+
+# ll /openstack/scripts/cinder
+total 8
+-rw-r--r--. 1 root root  217 Dec 16 20:26 init-cinder-db.sql
+-rw-r--r--. 1 root root 2196 Dec 16 20:26 initkeystone.sh
+
+# docker exec keystone /openstack/scripts/cinder/initkeystone.sh
 ```
 
 ## Init keystone for cinder

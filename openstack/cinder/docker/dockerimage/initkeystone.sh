@@ -36,7 +36,3 @@ openstack endpoint list | awk '/cinder/ && /admin/' | grep -w cinder || openstac
 openstack endpoint list | awk '/cinderv2/ && /public/' | grep -w cinderv2 || openstack endpoint create --region RegionOne volumev2 public http://${EXTERNAL_IP}:8776/v2/%\(tenant_id\)s
 openstack endpoint list | awk '/cinderv2/ && /internal/' | grep -w cinderv2 || openstack endpoint create --region RegionOne volumev2 internal http://${EXTERNAL_IP}:8776/v2/%\(tenant_id\)s
 openstack endpoint list | awk '/cinderv2/ && /admin/' | grep -w cinderv2 || openstack endpoint create --region RegionOne volumev2 admin http://${EXTERNAL_IP}:8776/v2/%\(tenant_id\)s
-
-
-
-
