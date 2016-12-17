@@ -44,7 +44,6 @@ total 12
     --hostname my-rabbit \
     -e RABBITMQ_DEFAULT_USER=openstack \
     -e RABBITMQ_DEFAULT_PASS=Letmein123 \
-    -e RABBITMQ_DEFAULT_VHOST=openstack \
     --net host rabbitmq
 ```
 

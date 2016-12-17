@@ -39,7 +39,5 @@ if [ -f /var/cinder/policy.json ]; then
     cp -f /var/cinder/policy.json /etc/cinder/policy.json
 fi
 
-service cinder-scheduler restart
-
 /usr/bin/python /usr/bin/cinder-scheduler --config-file=/etc/cinder/cinder.conf
 
