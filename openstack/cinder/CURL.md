@@ -39,9 +39,49 @@ curl http://${KEYSTONE_SERVER}:5000/v3/auth/tokens?nocatalog \
 MIIDtAYJKoZIhvcNAQcCoIIDpTCCA6ECAQExDTALBglghkgBZQMEAgEwggICBgkqhkiG9w0BBwGgggHzBIIB73sidG9rZW4iOnsibWV0aG9kcyI6WyJwYXNzd29yZCJdLCJyb2xlcyI6W3siaWQiOiI1NjFhNjA5ZTc0OGI0NzJlOWMyNjc2M2E1M2Q2M2FkYyIsIm5hbWUiOiJhZG1pbiJ9XSwiZXhwaXJlc19hdCI6IjIwMTYtMTItMTdUMDg6MTE6MTQuODkxODA3WiIsInByb2plY3QiOnsiZG9tYWluIjp7ImlkIjoiYWQxNDQyMDUwZmMyNGJlYTlkMTZiY2FkOWZhMDViYzYiLCJuYW1lIjoiZGVmYXVsdCJ9LCJpZCI6IjY0OTI2MjFkMTcwMzQ4MGNiZjMxYTI4NDQyMGZkYTk4IiwibmFtZSI6InNlcnZpY2UifSwidXNlciI6eyJkb21haW4iOnsiaWQiOiJhZDE0NDIwNTBmYzI0YmVhOWQxNmJjYWQ5ZmEwNWJjNiIsIm5hbWUiOiJkZWZhdWx0In0sImlkIjoiODE2NzI1NmU0ODVlNDEyZmE3YmVkMTBkNzMwYjU5OWEiLCJuYW1lIjoiY2luZGVyIn0sImF1ZGl0X2lkcyI6WyJrS3FvMDhpaVNwV0FCampBNkxwaEtBIl0sImlzc3VlZF9hdCI6IjIwMTYtMTItMTdUMDc6MTE6MTQuODkxODI5WiJ9fTGCAYUwggGBAgEBMFwwVzELMAkGA1UEBhMCVVMxDjAMBgNVBAgMBVVuc2V0MQ4wDAYDVQQHDAVVbnNldDEOMAwGA1UECgwFVW5zZXQxGDAWBgNVBAMMD3d3dy5leGFtcGxlLmNvbQIBATALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAZGMNyY1igUuS1YOBe1WkjqeededhlzHMOoSaGWwAioD8p0LceWqy1gbZ5B3WPnXWfcI4FF4DKZeJ-9bxpsTI6msXXB3WPdMUT3LFAnxqt+2kMlssJDDEOj2Gvkxw69uL2LMnwdEt9dVEsH89rHdFJDgRH8Hj67PrQ-DrH+Qe21vFsQ2LUpT80Z9-8Cdaz6oQFc43qlDcG2975MRTYHkb02cpyMoVhOvZAPwQK5H7L+CsBTc8hAVapQWdWC67XTLyHWcvnXKrG1UJe+sTM9aUq0wguS8K2bsEbi1GPng7YSWI5Ttq5fXjJkeElJiG2iAtLPwIYZjPjfhV3bNpXR4OEA==
 ```
 
+## Parse token
+```
+# curl -s -H "X-Subject-Token: $OS_TOKEN" -H "X-Auth-Token: $OS_TOKEN" -H "Content-Type: application/json"  http://${KEYSTONE_SERVER}:5000/v3/auth/tokens | python -m json.tool
+{
+    "token": {
+        "audit_ids": [
+            "GqPc1xc5RL6WUjdXZWWdig"
+        ],
+        "expires_at": "2016-12-17T09:24:36.283979Z",
+        "issued_at": "2016-12-17T08:24:36.284002Z",
+        "methods": [
+            "password"
+        ],
+        "project": {
+            "domain": {
+                "id": "2a5ad7e0150e43ba84dfc66e68f758e0",
+                "name": "default"
+            },
+            "id": "df6a46ab57d84788abffc9fbec043623",
+            "name": "service"
+        },
+        "roles": [
+            {
+                "id": "32a534700012463ea29175086c3fbc55",
+                "name": "admin"
+            }
+        ],
+        "user": {
+            "domain": {
+                "id": "2a5ad7e0150e43ba84dfc66e68f758e0",
+                "name": "default"
+            },
+            "id": "3bb9ac06b4a242688ab9635ef71fb188",
+            "name": "cinder"
+        }
+    }
+}
+```
+
+
 ## Get the volumes of the projects in the corresponding token
 ```
-# curl -H "X-Auth-Token:$OS_TOKEN" -s http://${CINDER_SERVER}:8776/v2/6492621d1703480cbf31a284420fda98/volumes/detail | python -mjson.tool
+# curl -H "X-Auth-Token:$OS_TOKEN" -s http://${CINDER_SERVER}:8776/v2/df6a46ab57d84788abffc9fbec043623/volumes/detail | python -mjson.tool
 {
     "volumes": []
 }
@@ -59,7 +99,7 @@ MIIDtAYJKoZIhvcNAQcCoIIDpTCCA6ECAQExDTALBglghkgBZQMEAgEwggICBgkqhkiG9w0BBwGgggHz
         "name": "newVolume",
         "description": "Description for the new volume."
     }
-}' http://${CINDER_SERVER}:8776/v2/6492621d1703480cbf31a284420fda98/volumes | python -mjson.tool
+}' http://${CINDER_SERVER}:8776/v2/df6a46ab57d84788abffc9fbec043623/volumes | python -mjson.tool
 {
     "volume": {
         "attachments": [],
