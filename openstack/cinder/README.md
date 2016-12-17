@@ -63,6 +63,13 @@ total 12
     --net host gradywang/cinder:mitaka /var/cinder/cinder-api.sh
 ```
 
+## Start cinder-scheduler
+```
+# docker run -d \
+    --name cinder-scheduler \
+    --hostname cinder-scheduler \
+    --net host gradywang/cinder:mitaka /var/cinder/cinder-scheduler.sh
+```
 
 
 

@@ -12,7 +12,7 @@ COPY init-cinder-db.sh /etc/cinder/init-cinder-db.sh
 COPY initkeystone.sh /etc/cinder/initkeystone.sh
 
 COPY cinder-api.sh /var/cinder/cinder-api.sh
-COPY cinder-schedule.sh /var/cinder/cinder-schedule.sh
+COPY cinder-scheduler.sh /var/cinder/cinder-scheduler.sh
 COPY cinder-volume.sh /var/cinder/cinder-volume.sh
 COPY sync-cinder-db.sh /var/cinder/sync-cinder-db.sh
 
