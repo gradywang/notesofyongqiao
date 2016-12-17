@@ -48,6 +48,14 @@ total 12
     --net host rabbitmq
 ```
 
+## Sync up cinder database
+```    
+# docker run -d \
+    --name syncdb \
+    --hostname syncdb \
+    --net host gradywang/cinder:mitaka /var/cinder/sync-cinder-db.sh
+```
+
 ## Start cinder-api
 ```
 # docker run -d \

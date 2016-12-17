@@ -14,6 +14,7 @@ COPY initkeystone.sh /etc/cinder/initkeystone.sh
 COPY cinder-api.sh /var/cinder/cinder-api.sh
 COPY cinder-schedule.sh /var/cinder/cinder-schedule.sh
 COPY cinder-volume.sh /var/cinder/cinder-volume.sh
+COPY sync-cinder-db.sh /var/cinder/sync-cinder-db.sh
 
 COPY cinder.conf /etc/cinder/cinder.conf
 COPY policy.json /etc/cinder/policy.json
