@@ -35,18 +35,11 @@ sed -i "s/@@RABBIT_PORT@@/${RABBIT_PORT}/g" /etc/cinder/cinder.conf
 
 sed -i "s/@@KEYSTONE_HOST@@/${KEYSTONE_HOST}/g" /etc/cinder/cinder.conf
 
-
 if [ -f /var/cinder/policy.json ]; then
     cp -f /var/cinder/policy.json /etc/cinder/policy.json
 fi
 
-su -s /bin/sh -c "cinder-manage db sync" cinder
-
 service cinder-api restart
 
-while true
-do
-    sleep 10
-    echo "Cinder api is running ......"
-done
+tail -f /var/log/cinder/cinder-api.log
 

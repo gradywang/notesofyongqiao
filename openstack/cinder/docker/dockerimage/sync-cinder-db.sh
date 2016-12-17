@@ -35,11 +35,10 @@ sed -i "s/@@RABBIT_PORT@@/${RABBIT_PORT}/g" /etc/cinder/cinder.conf
 
 sed -i "s/@@KEYSTONE_HOST@@/${KEYSTONE_HOST}/g" /etc/cinder/cinder.conf
 
+
 if [ -f /var/cinder/policy.json ]; then
     cp -f /var/cinder/policy.json /etc/cinder/policy.json
 fi
 
-service cinder-scheduler restart
-
-tail -f /var/log/cinder/cinder-scheduler.log
+su -s /bin/sh -c "cinder-manage db sync" cinder
 
