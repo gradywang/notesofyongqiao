@@ -13,6 +13,8 @@ RABBIT_PORT=${RABBIT_PORT:-5672}
 
 KEYSTONE_HOST=${KEYSTONE_HOST:-127.0.0.1}
 
+CINDER_HOST=${CINDER_HOST:-127.0.0.1}
+
 while true; do
     </dev/tcp/${MYSQL_SERVER_IP}/${MYSQL_SERVER_PORT} && break
     sleep 3
@@ -34,6 +36,8 @@ sed -i "s/@@RABBIT_HOST@@/${RABBIT_HOST}/g" /etc/cinder/cinder.conf
 sed -i "s/@@RABBIT_PORT@@/${RABBIT_PORT}/g" /etc/cinder/cinder.conf
 
 sed -i "s/@@KEYSTONE_HOST@@/${KEYSTONE_HOST}/g" /etc/cinder/cinder.conf
+
+sed -i "s/@@CINDER_HOST@@/${CINDER_HOST}/g" /etc/cinder/cinder.conf
 
 if [ -f /var/cinder/policy.json ]; then
     cp -f /var/cinder/policy.json /etc/cinder/policy.json
