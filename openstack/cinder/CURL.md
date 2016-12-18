@@ -81,9 +81,42 @@ MIIDtAYJKoZIhvcNAQcCoIIDpTCCA6ECAQExDTALBglghkgBZQMEAgEwggICBgkqhkiG9w0BBwGgggHz
 
 ## Get the volumes of the projects in the corresponding token
 ```
-# curl -H "X-Auth-Token:$OS_TOKEN" -s http://${CINDER_SERVER}:8776/v2/0509a08438cf407f90936263442c42bf/volumes/detail | python -mjson.tool
+# curl -H "X-Auth-Token:$OS_TOKEN" -s http://${CINDER_SERVER}:8776/v2/ed10dc336cce4d1c84316bdf685b0c7d/volumes/detail | python -mjson.tool
 {
-    "volumes": []
+    "volumes": [
+        {
+            "attachments": [],
+            "availability_zone": "nova",
+            "bootable": "false",
+            "consistencygroup_id": null,
+            "created_at": "2016-12-18T11:44:21.000000",
+            "description": "Description for the new volume.",
+            "encrypted": false,
+            "id": "c4027a62-c88c-4330-8800-f4836473ce0d",
+            "links": [
+                {
+                    "href": "http://192.168.56.110:8776/v2/ed10dc336cce4d1c84316bdf685b0c7d/volumes/c4027a62-c88c-4330-8800-f4836473ce0d",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://192.168.56.110:8776/ed10dc336cce4d1c84316bdf685b0c7d/volumes/c4027a62-c88c-4330-8800-f4836473ce0d",
+                    "rel": "bookmark"
+                }
+            ],
+            "metadata": {},
+            "multiattach": false,
+            "name": "newVolume",
+            "os-vol-tenant-attr:tenant_id": "ed10dc336cce4d1c84316bdf685b0c7d",
+            "replication_status": "disabled",
+            "size": 1,
+            "snapshot_id": null,
+            "source_volid": null,
+            "status": "available",
+            "updated_at": "2016-12-18T11:44:22.000000",
+            "user_id": "88dbd7e8bd3144629a88774f8e6680d8",
+            "volume_type": null
+        }
+    ]
 }
 ```
 
@@ -99,7 +132,7 @@ MIIDtAYJKoZIhvcNAQcCoIIDpTCCA6ECAQExDTALBglghkgBZQMEAgEwggICBgkqhkiG9w0BBwGgggHz
         "name": "newVolume",
         "description": "Description for the new volume."
     }
-}' http://${CINDER_SERVER}:8776/v2/0509a08438cf407f90936263442c42bf/volumes | python -mjson.tool
+}' http://${CINDER_SERVER}:8776/v2/ed10dc336cce4d1c84316bdf685b0c7d/volumes | python -mjson.tool
 {
     "volume": {
         "attachments": [],
