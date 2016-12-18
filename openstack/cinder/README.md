@@ -1,5 +1,6 @@
 # Deploy cinder with docker
-
+https://github.com/ContinUSE/openstack-on-coreos
+https://hub.docker.com/r/continuse/openstack-cinder/
 Before the following steps, it assumes that the keystone identity service has be deployed by the steps in [here](https://github.com/gradywang/notesofyongqiao/tree/master/openstack/keystone/docker)
 
 ## Create new db for cinder
@@ -73,6 +74,7 @@ total 12
 # docker run -d \
     --privileged \
     --name cinder-volume \
+    -v /dev:/dev \
     --hostname cinder-volume \
     --net host gradywang/cinder:mitaka /var/cinder/cinder-volume.sh
 ```

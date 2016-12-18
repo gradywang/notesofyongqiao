@@ -81,7 +81,7 @@ MIIDtAYJKoZIhvcNAQcCoIIDpTCCA6ECAQExDTALBglghkgBZQMEAgEwggICBgkqhkiG9w0BBwGgggHz
 
 ## Get the volumes of the projects in the corresponding token
 ```
-# curl -H "X-Auth-Token:$OS_TOKEN" -s http://${CINDER_SERVER}:8776/v2/cfea2a0ff82446c5a8ee11fbd1e2c115/volumes/detail | python -mjson.tool
+# curl -H "X-Auth-Token:$OS_TOKEN" -s http://${CINDER_SERVER}:8776/v2/0509a08438cf407f90936263442c42bf/volumes/detail | python -mjson.tool
 {
     "volumes": []
 }
@@ -95,11 +95,11 @@ MIIDtAYJKoZIhvcNAQcCoIIDpTCCA6ECAQExDTALBglghkgBZQMEAgEwggICBgkqhkiG9w0BBwGgggHz
   -d '
 {
     "volume": {
-        "size": "0.1", 
+        "size": "1", 
         "name": "newVolume",
         "description": "Description for the new volume."
     }
-}' http://${CINDER_SERVER}:8776/v2/cfea2a0ff82446c5a8ee11fbd1e2c115/volumes | python -mjson.tool
+}' http://${CINDER_SERVER}:8776/v2/0509a08438cf407f90936263442c42bf/volumes | python -mjson.tool
 {
     "volume": {
         "attachments": [],
