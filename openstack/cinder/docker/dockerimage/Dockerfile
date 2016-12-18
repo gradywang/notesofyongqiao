@@ -5,7 +5,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends software-properties-common \
     && add-apt-repository -y cloud-archive:mitaka \
     && apt-get update \
-    && apt-get -y install --no-install-recommends cinder-api cinder-scheduler cinder-volume mysql-client python-openstackclient \
+    && apt-get -y install --no-install-recommends qemu lvm2 open-iscsi tgt iscsitarget iscsitarget-dkms nfs-kernel-server nfs-common cinder-api cinder-scheduler cinder-volume mysql-client python-openstackclient \
     && rm -rf /var/lib/apt/lists/*
 
 COPY init-cinder-db.sh /etc/cinder/init-cinder-db.sh

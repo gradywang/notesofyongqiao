@@ -39,6 +39,8 @@ if [ -f /var/cinder/policy.json ]; then
     cp -f /var/cinder/policy.json /etc/cinder/policy.json
 fi
 
+service rpcbind restart
+service nfs-kernel-server restart
 service tgt restart
 
 /usr/bin/python /usr/bin/cinder-volume --config-file=/etc/cinder/cinder.conf
