@@ -73,29 +73,11 @@ total 12
 ```
 # docker run -d \
     --privileged \
+    -e CINDER_HOST=192.168.56.101 \
     --name cinder-volume \
     -v /dev:/dev \
     --hostname cinder-volume \
     --net host gradywang/cinder:mitaka /var/cinder/cinder-volume.sh
-```
-
-
-## Start kilo cinder-volume
-```
-# docker run -d \
-    --privileged \
-    --name cinder-volume \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    -e MYIPADDR=192.168.56.101 \
-    --hostname cinder-volume \
-    --net host continuse/openstack-cinder:kilo
 ```
 
 
