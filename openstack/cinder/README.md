@@ -12,7 +12,7 @@ Before the following steps, it assumes that the keystone identity service has be
 
 # sudo chmod +x /openstack/scripts/cinder/init-cinder-db.sh
 
-# sudo ll /openstack/scripts/cinder
+# sudo ls -l /openstack/scripts/cinder
 total 8
 -rwxr-xr-x. 1 root root  589 Dec 16 20:48 init-cinder-db.sh
 
@@ -28,7 +28,7 @@ total 8
 
 # sudo chmod +x /openstack/scripts/cinder/initkeystone.sh
 
-# ll /openstack/scripts/cinder
+# sudo ls -l /openstack/scripts/cinder
 total 12
 -rwxr-xr-x. 1 root root  589 Dec 16 21:46 init-cinder-db.sh
 -rw-r--r--. 1 root root  218 Dec 16 21:47 init-cinder-db.sql
@@ -50,12 +50,14 @@ total 12
 
 ## Sync up cinder database
 ```    
-# sudo docker run -it --net host gradywang/cinder:mitaka /var/cinder/sync-cinder-db.sh
+# sudo docker run -it \
+    -e MYSQL_SERVER_IP=192.168.56.101 \
+    gradywang/cinder:mitaka /var/cinder/sync-cinder-db.sh
 ```
 
 ## Start cinder-api
 ```
-# docker run -d \
+# sudo docker run -d \
     --name cinder-api \
     --hostname cinder-api \
     --net host gradywang/cinder:mitaka /var/cinder/cinder-api.sh
@@ -63,7 +65,7 @@ total 12
 
 ## Start cinder-scheduler
 ```
-# docker run -d \
+# sudo docker run -d \
     --name cinder-scheduler \
     --hostname cinder-scheduler \
     --net host gradywang/cinder:mitaka /var/cinder/cinder-scheduler.sh
@@ -71,7 +73,7 @@ total 12
 
 ## Start cinder-volume
 ```
-# docker run -d \
+# sudo docker run -d \
     --privileged \
     -e CINDER_HOST=192.168.56.101 \
     --name cinder-volume \
@@ -79,9 +81,3 @@ total 12
     --hostname cinder-volume \
     --net host gradywang/cinder:mitaka /var/cinder/cinder-volume.sh
 ```
-
-
-
-
-
-
