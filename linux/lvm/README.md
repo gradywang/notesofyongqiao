@@ -1,4 +1,4 @@
-# LVM²Ù×÷
+# LVM operations
 
-![Alt text](images/to/lv-pv.jpg)
+![LVM Concepts](images/lv-pv.jpg)
 
