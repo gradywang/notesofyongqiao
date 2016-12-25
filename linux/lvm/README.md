@@ -1,3 +1,10 @@
+# LVM
+
+LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环境下对磁盘分区进行管理的一种机制，LVM是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。LVM是在磁盘分区和文件系统之间添加的一个逻辑层，来为文件系统屏蔽下层磁盘分区布局，提供一个抽象的盘卷，在盘卷上建立文件系统。物理卷（physical volume）物理卷就是指硬盘分区或从逻辑上与磁盘分区具有同样功能的设备（如RAID），是LVM的基本存储逻辑块，但和基本的物理存储介质（如分区、磁盘等）比较，却包含有与LVM相关的管理参数。
+
+优势：
+- 能够在线扩容当前的分区容量。
+
 # LVM operations
 
 ![LVM Concepts](images/lv-pv.jpg)
@@ -36,7 +43,8 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 ```
 
 ## Create physical volume
-物理卷（Physical Volumes）简称PV，是在磁盘的物理分区或与磁盘分区具有同样功能的设备（如RAID)上创建而来。它只是在物理分区中划出了一个特殊的区域，用于记载与LVM相关的管理参数。 
+物理卷（Physical Volumes）简称PV，是在磁盘的物理分区或与磁盘分区具有同样功能的设备（如RAID)上创建而来。它只是在物理分区中划出了一个特殊的区域，用于记载与LVM相关的管理参数。
+物理卷：Physical Volume，简称PV，一个物理卷只不过是一个有LVM管理数据添加在里面的物理存储介质。要使用LVM系统，首先对要用于LVM的磁盘进行初始化，初始化的目的就是将磁盘或分区标识为LVM 的物理卷。使用pvcreate 命令可以将一个磁盘标记为 LVM 物理卷。 
 ```
 # pvcreate /dev/sdb 
   Physical volume "/dev/sdb" successfully created
@@ -59,6 +67,8 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 卷组（Volume Group）简称VG，它是一个或者多个物理卷的组合。卷组将多个物理卷组合在一起，形成一个可管理的单元，它类似于非LVM系统中的物理硬盘。 
 当多个物理卷组合成一个卷组后时，LVM会在所有的物理卷上做类似格式化的工作，将每个物理卷切成一块一块的空间，这一块一块的空间就称为PE（Physical Extent ），它的默认大小是4MB。 
 由于受内核限制的原因，一个逻辑卷（Logic Volume）最多只能包含65536个PE（Physical Extent），所以一个PE的大小就决定了逻辑卷的最大容量，4 MB 的PE决定了单个逻辑卷最大容量为 256 GB，若希望使用大于256G的逻辑卷，则创建卷组时需要指定更大的PE。在Red Hat Enterprise Linux AS 4中PE大小范围为8 KB 到 16GB，并且必须总是 2 的倍数。 
+
+物理分区：Physical Extents，简称PE，LVM将每个物理卷分别叫做物理分区的可寻址存储单元，存储单元的大小通常为几MB。磁盘的开头部分为LVM元数据，之后从索引为零开始，每个物理分区的索引依次递增一，按顺序进行分配。
 ```
 # vgcreate myvg /dev/sdb
   Volume group "myvg" successfully created
