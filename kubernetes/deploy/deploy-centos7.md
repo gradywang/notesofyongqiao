@@ -75,6 +75,8 @@ Start kubernetes cluster:
 export KUBERNETES_PROVIDER=centos
 export MASTERS="root@192.168.56.111"
 export NODES="root@192.168.56.111 root@192.168.56.112"
+export ENABLE_CLUSTER_DNS="true"
+export ENABLE_CLUSTER_UI="true"
 cd ${WORKSPACE}/kubernetes/cluster
 bash kube-up.sh 
 cp ${WORKSPACE}/kubernetes/cluster/centos/binaries/kubectl /usr/local/sbin
@@ -82,5 +84,26 @@ cp ${WORKSPACE}/kubernetes/cluster/centos/binaries/kubectl /usr/local/sbin
 NAME             STATUS    AGE       VERSION
 192.168.56.111   Ready     7m        v1.7.0
 192.168.56.112   Ready     2m        v1.7.0
+```
+
+# Deploy addons
+```
+export DNS_REPLICAS=1
+export DNS_DOMAIN="cluster.local"
+export DNS_SERVER_IP="192.168.3.10"
+export KUBE_ROOT=${WORKSPACE}/kubernetes
+
+cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-sa.yaml ${WORKSPACE}/kubernetes/cluster/centos/
+ 
+
+```
+
+# Uninstall kubernetes cluster
+```
+export KUBERNETES_PROVIDER=centos
+export MASTERS="root@192.168.56.111"
+export NODES="root@192.168.56.111 root@192.168.56.112"
+cd ${WORKSPACE}/kubernetes/cluster
+bash kube-down.sh 
 ```
   
