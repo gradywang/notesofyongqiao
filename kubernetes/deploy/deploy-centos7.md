@@ -19,7 +19,19 @@ export WORKSPACE=/opt/k8s-workspace/
 export K8S_VERSION=1.7.0
 mkdir -p ${WORKSPACE}
 cd ${WORKSPACE}
+```
+
+Copy from backups:
+```
+cp ${WORKSPACE}/backups/kubernetes.tar.gz . 
+```
+or download it:
+```
 wget --no-check-certificate https://github.com/kubernetes/kubernetes/releases/download/v${K8S_VERSION}/kubernetes.tar.gz
+```
+
+unpack it:
+```
 tar -zxvf kubernetes.tar.gz; rm -rf kubernetes.tar.gz
 ```
 
@@ -31,37 +43,36 @@ export FLANNEL_VERSION=0.7.1
 export ETCD_VERSION=3.2.2
 ```
 
-Download required packages:
+Copy binaries from backups:
+```
+# If download failed on your machine, view master/cluster/centos/config-build.sh 
+# and download them with xunlei, and backup them in ${WORKSPACE}/backups/
+
+cp ${WORKSPACE}/backups/*  ${WORKSPACE}/release
+```
+or download required packages:
 ```
 cd ${WORKSPACE}/kubernetes/cluster/centos
 ./build.sh download
 # All packages will be download in ${WORKSPACE}/release, you can backup these files
 ```
-or
-```
-# If download failed on your machine, view master/cluster/centos/config-build.sh 
-# and download them with xunlei, and backup them in ${WORKSPACE}/backups/
 
-cp ${WORKSPACE}/backups/* ${WORKSPACE}/release
+Copy cfssl and jsoncfssl from backups:
 ```
-
-Download the cfssl and jsoncfssl:
+cp cfssl cfssljson /usr/local/sbin
+chmod +x /usr/local/sbin/cfssl*
+```
+or download the cfssl and jsoncfssl:
 ```
 curl -s -L -o cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
 curl -s -L -o cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
 ```
-or download with xunlei
-
-```
-mv cfssl cfssljson /usr/local/sbin
-chmod +x /usr/local/sbin/cfssl*
-```
 
 Others:
 ```
-ll ${WORKSPACE}/release
-
+cd ${WORKSPACE}/kubernetes/cluster/centos
 ./build.sh unpack
+
 cp ${RELEASES_DIR}/kubernetes-server-linux-amd64.tar.gz ${WORKSPACE}/kubernetes/server
 tar -zxvf ${WORKSPACE}/kubernetes/server/kubernetes-salt.tar.gz -C ${WORKSPACE}/kubernetes/cluster
 mv ${WORKSPACE}/kubernetes/cluster/kubernetes/saltbase ${WORKSPACE}/kubernetes/cluster
@@ -75,15 +86,23 @@ Start kubernetes cluster:
 export KUBERNETES_PROVIDER=centos
 export MASTERS="root@192.168.56.111"
 export NODES="root@192.168.56.111 root@192.168.56.112"
-export ENABLE_CLUSTER_DNS="true"
-export ENABLE_CLUSTER_UI="true"
+
 cd ${WORKSPACE}/kubernetes/cluster
 bash kube-up.sh 
 cp ${WORKSPACE}/kubernetes/cluster/centos/binaries/kubectl /usr/local/sbin
-# kubectl get nodes
+
+kubectl get nodes
 NAME             STATUS    AGE       VERSION
 192.168.56.111   Ready     7m        v1.7.0
 192.168.56.112   Ready     2m        v1.7.0
+```
+
+# Configure docker
+```
+vim /opt/kubernetes/cfg/docker
+
+--insecure-registry gcr.io
+http_proxy
 ```
 
 # Deploy addons
@@ -94,8 +113,15 @@ export DNS_SERVER_IP="192.168.3.10"
 export KUBE_ROOT=${WORKSPACE}/kubernetes
 
 cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-sa.yaml ${WORKSPACE}/kubernetes/cluster/centos/
- 
+cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-cm.yaml ${WORKSPACE}/kubernetes/cluster/centos/
 
+cd ${WORKSPACE}/kubernetes/cluster/centos
+./deployAddons.sh
+```
+
+# Get cluster info for dashboard
+```
+kubectl cluster-info
 ```
 
 # Uninstall kubernetes cluster
@@ -104,6 +130,9 @@ export KUBERNETES_PROVIDER=centos
 export MASTERS="root@192.168.56.111"
 export NODES="root@192.168.56.111 root@192.168.56.112"
 cd ${WORKSPACE}/kubernetes/cluster
+
+# Remove all pods firstly!
+
 bash kube-down.sh 
 ```
   
