@@ -12,6 +12,12 @@ systemctl disable firewalld.service
 ssh-keygen
 ssh-copy-id
 ```
+- Disable SELinux
+```
+vim /etc/sysconfig/selinux
+SELINUX=disabled
+```
+Then restart the machine.
 
 # Download the specified version of kubernetes
 ```
@@ -48,6 +54,7 @@ Copy binaries from backups:
 # If download failed on your machine, view master/cluster/centos/config-build.sh 
 # and download them with xunlei, and backup them in ${WORKSPACE}/backups/
 
+rm -rf ${WORKSPACE}/release/*
 cp ${WORKSPACE}/backups/*  ${WORKSPACE}/release
 ```
 or download required packages:
@@ -59,13 +66,26 @@ cd ${WORKSPACE}/kubernetes/cluster/centos
 
 Copy cfssl and jsoncfssl from backups:
 ```
-cp cfssl cfssljson /usr/local/sbin
+cp ${WORKSPACE}/backups/cfssl* /usr/local/sbin
 chmod +x /usr/local/sbin/cfssl*
 ```
 or download the cfssl and jsoncfssl:
 ```
-curl -s -L -o cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
-curl -s -L -o cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+curl -s -L -o /usr/local/sbin/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+curl -s -L -o /usr/local/sbin/cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x /usr/local/sbin/cfssl*
+```
+
+Copy easy-rsa.tar.gz from backups:
+```
+mkdir ~/kube
+cp ${WORKSPACE}/backups/easy-rsa.tar.gz ~/kube/
+```
+or download it:
+```
+mkdir ~/kube
+wget --no-check-certificate https://storage.googleapis.com/kubernetes-release/easy-rsa/easy-rsa.tar.gz
+mv easy-rsa.tar.gz ~/kube
 ```
 
 Others:
@@ -104,13 +124,17 @@ vim /opt/kubernetes/cfg/docker
 --insecure-registry gcr.io
 http_proxy
 ```
+Then restart docker service
+```
+systemctl stop docker
+systemctl start docker
+```
 
 # Deploy addons
 ```
 export DNS_REPLICAS=1
 export DNS_DOMAIN="cluster.local"
 export DNS_SERVER_IP="192.168.3.10"
-export KUBE_ROOT=${WORKSPACE}/kubernetes
 
 cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-sa.yaml ${WORKSPACE}/kubernetes/cluster/centos/
 cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-cm.yaml ${WORKSPACE}/kubernetes/cluster/centos/
