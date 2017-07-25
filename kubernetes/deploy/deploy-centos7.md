@@ -104,6 +104,7 @@ useradd kube-cert
 Start kubernetes cluster:
 ```
 export KUBERNETES_PROVIDER=centos
+export DNS_SERVER_IP=192.168.3.100
 export MASTERS="root@192.168.56.111"
 export NODES="root@192.168.56.111 root@192.168.56.112"
 
@@ -121,20 +122,22 @@ NAME             STATUS    AGE       VERSION
 ```
 vim /opt/kubernetes/cfg/docker
 
---insecure-registry gcr.io
+-H tcp://127.0.0.1:4243 --insecure-registry gcr.io --insecure-registry quay.io
 http_proxy
 ```
 Then restart docker service
 ```
-systemctl stop docker
-systemctl start docker
+systemctl restart docker
+systemctl restart kubelet
 ```
 
 # Deploy addons
 ```
 export DNS_REPLICAS=1
 export DNS_DOMAIN="cluster.local"
-export DNS_SERVER_IP="192.168.3.10"
+export DNS_SERVER_IP=192.168.3.100
+export ENABLE_CLUSTER_DNS=true
+export ENABLE_CLUSTER_UI=true
 
 cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-sa.yaml ${WORKSPACE}/kubernetes/cluster/centos/
 cp ${WORKSPACE}/kubernetes/cluster/addons/dns/kubedns-cm.yaml ${WORKSPACE}/kubernetes/cluster/centos/
@@ -153,6 +156,7 @@ kubectl cluster-info
 export KUBERNETES_PROVIDER=centos
 export MASTERS="root@192.168.56.111"
 export NODES="root@192.168.56.111 root@192.168.56.112"
+export DNS_SERVER_IP=192.168.3.100
 cd ${WORKSPACE}/kubernetes/cluster
 
 # Remove all pods firstly!
